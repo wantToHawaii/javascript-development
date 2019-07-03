@@ -1,0 +1,27 @@
+{
+  "name": "javascript-development",
+  "version": "1.0.0",
+  "description": "Just notes of learning JavaScript",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wantToHawaii/javascript-development.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wantToHawaii/javascript-development/issues"
+  },
+  "homepage": "https://github.com/wantToHawaii/javascript-development#readme",
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5"
+  }
+}
