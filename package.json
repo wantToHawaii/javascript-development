@@ -4,7 +4,11 @@
   "description": "Just notes of learning JavaScript",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server --open",
+    "lint:fix": "eslint --fix ./src/*"
   },
   "repository": {
     "type": "git",
@@ -18,10 +22,21 @@
   },
   "homepage": "https://github.com/wantToHawaii/javascript-development#readme",
   "dependencies": {
-    "lodash": "^4.17.11"
+    "@babel/polyfill": "^7.4.4"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-loader": "^2.2.0",
+    "eslint-plugin-import": "^2.18.0",
+    "html-webpack-plugin": "^3.2.0",
     "webpack": "^4.35.2",
-    "webpack-cli": "^3.3.5"
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   }
 }
