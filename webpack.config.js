@@ -1,6 +1,6 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -14,7 +14,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Development',
       template: './src/index.html'
-    }),
+    })
   ],
   output: {
     filename: '[name].bundle.js',
@@ -29,4 +29,4 @@ module.exports = {
       }
     ]
   }
-};
+}

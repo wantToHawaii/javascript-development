@@ -1,3 +1,3 @@
-import singletonData from './patterns/singleton';
+import singletonData from './patterns/singleton'
 
-console.log(singletonData);
+console.log(singletonData)

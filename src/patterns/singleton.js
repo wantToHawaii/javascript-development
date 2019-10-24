@@ -1,1 +1,1 @@
-export default 'this is singleton';
+export default 'this is singleton'
