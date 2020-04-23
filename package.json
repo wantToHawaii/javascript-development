@@ -8,13 +8,7 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "start": "webpack-dev-server --open",
-    "lint": "npx standard",
-    "lint:fix": "npx standard --fix"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint:fix"
-    }
+    "serve-node": "nodemon src/data-structures/linked-list.js"
   },
   "repository": {
     "type": "git",
@@ -37,8 +31,7 @@
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "html-webpack-plugin": "^3.2.0",
-    "husky": "^3.0.0",
-    "standard": "^14.3.1",
+    "nodemon": "^2.0.3",
     "webpack": "^4.35.2",
     "webpack-cli": "^3.3.5",
     "webpack-dev-server": "^3.7.2"

@@ -1,3 +1,1 @@
-import singletonData from './patterns/singleton'
-
-console.log(singletonData)
+import Structures from './data-structures'
