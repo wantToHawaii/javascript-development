@@ -1,1 +1,1 @@
-import Structures from './data-structures'
+import Structures from './data-structures';

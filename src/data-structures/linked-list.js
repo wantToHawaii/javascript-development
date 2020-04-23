@@ -11,43 +11,43 @@
  * Double Linked List where each node has a link to the previous node
  */
 
-class LinkedListNode {
+export class LinkedListNode {
   constructor (data) {
-    this.data = data
-    this.next = null
+    this.data = data;
+    this.next = null;
   }
 }
 
 // make head unique and non-writable
-const head = Symbol('head')
-const tail = Symbol('tail')
+const head = Symbol('head');
+const tail = Symbol('tail');
 
-class LinkedList {
+export class LinkedList {
   constructor () {
-    this[head] = null
-    this[tail] = null
-    this.length = 0
+    this[head] = null;
+    this[tail] = null;
+    this.length = 0;
   }
 
   // helpers
-  get isEmpty () { return this.length === 0 }
-  increaseLength () { this.length += 1 }
-  decreaseLength () { this.length -= 1 }
-  indexInvalid (index) { return (index < 0) || (index > this.length - 1) }
+  get isEmpty() { return this.length === 0; }
+  increaseLength() { this.length += 1; }
+  decreaseLength() { this.length -= 1; }
+  indexInvalid(index) { return (index < 0) || (index > this.length - 1); }
 
   /**
    * Get item from the list by specified index
    * Complexity: O(n)
    */
-  get (index) {
-    if (this.isEmpty || this.indexInvalid(index)) return undefined
-    let current = this[head]
-    let i = 0
+  get(index) {
+    if (this.isEmpty || this.indexInvalid(index)) return undefined;
+    let current = this[head];
+    let i = 0;
     while (i < index) {
-      current = current.next
-      i += 1
+      current = current.next;
+      i += 1;
     }
-    return current.data
+    return current.data;
   }
 
   /**
@@ -55,77 +55,75 @@ class LinkedList {
    * Complexity: O(1)
    * If our list didn't include the tail the complexity would be O(n)
    */
-  add (data) {
-    const newNode = new LinkedListNode(data)
+  add(data) {
+    const newNode = new LinkedListNode(data);
     if (this.isEmpty) {
-      this[head] = this[tail] = newNode
+      this[head] = this[tail] = newNode;
     } else {
-      this[tail].next = this[tail] = newNode
+      this[tail].next = this[tail] = newNode;
     }
-    this.increaseLength()
+    this.increaseLength();
   }
 
   /**
    * Remove item from the list by specified index
    * Complexity: O(n)
    */
-  removeAt (index) {
-    let data = null
+  removeAt(index) {
+    let data = null;
 
-    if (this.isEmpty || this.indexInvalid(index)) return undefined
+    if (this.isEmpty || this.indexInvalid(index)) return undefined;
 
     // special case: list contains only 1 element and index is 0
     // we need to remove it and set head and tail to null
     if (index === 0 && this.length === 1) {
-      data = this[head].data
-      this[head] = this[tail] = null
+      data = this[head].data;
+      this[head] = this[tail] = null;
     } else {
-      let current = this[head]
-      let previous = null
-      let i = 0
+      let current = this[head];
+      let previous = null;
+      let i = 0;
       while (i < index) {
-        previous = current
-        current = current.next
-        i += 1
+        previous = current;
+        current = current.next;
+        i += 1;
       }
       data = current.data
 
       if (!previous) {
-        this[head] = current.next
+        this[head] = current.next;
       } else {
-        const { next } = current
-        current = null // remove node
-        previous.next = next
+        const { next } = current;
+        current = null; // remove node
+        previous.next = next;
 
         if (!next) {
           // after removing we have only one item in the list so
           // save it in both head and tail
           if (this.length === 2) {
-            this[tail] = this[head]
+            this[tail] = this[head];
           } else {
             // tail is equal to the previous node
-            this[tail] = previous
+            this[tail] = previous;
           }
         }
       }
     }
 
-    this.decreaseLength()
-    return data
+    this.decreaseLength();
+    return data;
   }
 
   // realise generator to iterate over the List values
-  * values () {
-    let current = this[head]
+  * values() {
+    let current = this[head];
     while (current !== null) {
-      yield current.data
-      current = current.next
+      yield current.data;
+      current = current.next;
     }
   }
 
-  [Symbol.iterator] () {
-    return this.values()
+  [Symbol.iterator]() {
+    return this.values();
   }
 }
-
-export default LinkedList

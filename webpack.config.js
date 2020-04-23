@@ -23,10 +23,19 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
-      }
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+            loader: 'babel-loader',
+            options: {
+                presets: ['@babel/preset-env'],
+                // the 'transform-runtime' plugin tells Babel to
+                // require the runtime instead of inlining it.
+                // i.e. uses links to shared helpers instead of copying it in each file
+                plugins: ['@babel/plugin-transform-runtime']
+            }
+        }
+      },
     ]
   }
 }
