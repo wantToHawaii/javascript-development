@@ -1,5 +1,5 @@
 /**
- * Linked List
+ * Doubly Linked List
  * Used in:
  * - List, Queue, Stack implementations
  * - great for creating circular lists
@@ -8,13 +8,14 @@
  *
  * Note:
  * Linked List also can be implemented without the tail
- * Double Linked List where each node has a link to the previous node
+ * Linked List nodes can be without a link to the next node
  */
 
 export class LinkedListNode {
-  constructor (data) {
+  constructor ({ data, prev, next }) {
     this.data = data;
-    this.next = null;
+    this.prev = prev;
+    this.next = next;
   }
 }
 
@@ -36,11 +37,165 @@ export class LinkedList {
   indexInvalid(index) { return (index < 0) || (index > this.length - 1); }
 
   /**
-   * Get item from the list by specified index
+   * Add node at the end of the list
+   * Complexity: O(1)
+   */
+  add(data) {
+    this.addLast(data);
+  }
+
+  /**
+   * Add a node at the end of the list
+   * Complexity: O(1)
+   * If our list didn't include the tail the complexity would be O(n)
+   */
+  addLast(data) {
+    if (this.isEmpty) {
+      this[head] = this[tail] = new LinkedListNode({ data, prev: null, next: null });
+    } else {
+      this[tail].next = new LinkedListNode({ data, prev: this[tail], next: null });
+      this[tail] = this[tail].next;
+    }
+    this.increaseLength();
+  }
+
+  /**
+   * Add a node to the beginning of the linked list
+   * Complexity: O(1)
+   */
+  addFirst(data) {
+    if (this.isEmpty) {
+      this[head] = this[tail] = new LinkedListNode({ data, prev: null, next: null });
+    } else {
+      this[head].prev = new LinkedListNode({ data, prev: null, next: this[head] });
+      this[head] = this[head].prev;
+    }
+    this.increaseLength();
+  }
+
+  /**
+   * Get a value of the head of the list
+   * Complexity: O(1)
+   */
+  peekFirst() {
+    if (this.isEmpty) return undefined;
+    return this[head].data;
+  }
+
+  /**
+   * Get a value of the tail of the list
+   * Complexity: O(1)
+   */
+  peekLast() {
+    if (this.isEmpty) return undefined;
+    return this[tail].data;
+  }
+
+  /**
+   * Remove the first node from the list
+   * Complexity: O(1)
+   */
+  removeFirst() {
+    if (this.isEmpty) return undefined;
+
+    const data = this[head].data;
+    this[head] = this[head].next;
+    this.decreaseLength();
+
+    if (this.isEmpty) {
+      this[tail] = null;
+    } else {
+      this[head].prev = null;
+    }
+
+    return data;
+  }
+
+  /**
+   * Remove the last node from the list
+   * Complexity: O(1)
+   */
+  removeLast() {
+    if (this.isEmpty) return undefined;
+
+    const data = this[tail].data;
+    this[tail] = this[tail].prev;
+    this.decreaseLength();
+
+    if (this.isEmpty) {
+      this[head] = null;
+    } else {
+      this[tail].next = null;
+    }
+
+    return data;
+  }
+
+  /**
+   * Remove an arbitrary node from the linked list
+   * Complexity: O(1)
+   */
+  _remove(node) {
+    if (node.prev === null) return this.removeFirst();
+    if (node.next === null) return this.removeLast();
+
+    node.next.prev = node.prev;
+    node.prev.next = node.next;
+
+    let data = node.data;
+    node.data = null;
+    node = node.prev = node.next = null;
+
+    this.decreaseLength();
+    return data;
+  }
+
+  /**
+   * Remove a node from the list by specified index
+   * Complexity: O(n)
+   */
+  removeAt(index) {
+    if (this.isEmpty || this.indexInvalid(index)) return undefined;
+
+    if (index === this.length - 1) {
+      return this.removeLast();
+    } else if (this.length === 1) {
+      return this.removeFirst();
+    }
+
+    let node;
+    let i;
+    // Search from the front of the list
+    if (index < this.length / 2) {
+      for (i = 0, node = this[head]; i !== index; i += 1) {
+        node = node.next;
+      }
+      // Search from the back of the list
+    } else {
+      for (i = this.length - 1, node = this[tail]; i !== index; i -= 1) {
+        node = node.prev;
+      }
+    }
+
+    return this._remove(node);
+  }
+
+  /**
+   * Get a value from the list by specified index
    * Complexity: O(n)
    */
   get(index) {
     if (this.isEmpty || this.indexInvalid(index)) return undefined;
+
+    // make complexity of getting the last node as O(1)
+    if (index === this.length - 1) {
+      return this[tail].data
+    }
+
+    if (index === 0) {
+      return this[head].data;
+    }
+
     let current = this[head];
     let i = 0;
     while (i < index) {
@@ -48,70 +203,6 @@ export class LinkedList {
       i += 1;
     }
     return current.data;
-  }
-
-  /**
-   * Add item at the end of the list
-   * Complexity: O(1)
-   * If our list didn't include the tail the complexity would be O(n)
-   */
-  add(data) {
-    const newNode = new LinkedListNode(data);
-    if (this.isEmpty) {
-      this[head] = this[tail] = newNode;
-    } else {
-      this[tail].next = this[tail] = newNode;
-    }
-    this.increaseLength();
-  }
-
-  /**
-   * Remove item from the list by specified index
-   * Complexity: O(n)
-   */
-  removeAt(index) {
-    let data = null;
-
-    if (this.isEmpty || this.indexInvalid(index)) return undefined;
-
-    // special case: list contains only 1 element and index is 0
-    // we need to remove it and set head and tail to null
-    if (index === 0 && this.length === 1) {
-      data = this[head].data;
-      this[head] = this[tail] = null;
-    } else {
-      let current = this[head];
-      let previous = null;
-      let i = 0;
-      while (i < index) {
-        previous = current;
-        current = current.next;
-        i += 1;
-      }
-      data = current.data
-
-      if (!previous) {
-        this[head] = current.next;
-      } else {
-        const { next } = current;
-        current = null; // remove node
-        previous.next = next;
-
-        if (!next) {
-          // after removing we have only one item in the list so
-          // save it in both head and tail
-          if (this.length === 2) {
-            this[tail] = this[head];
-          } else {
-            // tail is equal to the previous node
-            this[tail] = previous;
-          }
-        }
-      }
-    }
-
-    this.decreaseLength();
-    return data;
   }
 
   // realise generator to iterate over the List values
