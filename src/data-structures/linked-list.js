@@ -8,7 +8,7 @@
  *
  * Note:
  * Linked List also can be implemented without the tail
- * Linked List nodes can be without a link to the next node
+ * Linked List nodes can be without a link to the prev node
  */
 
 export class LinkedListNode {
@@ -34,7 +34,7 @@ export class LinkedList {
   get isEmpty() { return this.length === 0; }
   increaseLength() { this.length += 1; }
   decreaseLength() { this.length -= 1; }
-  indexInvalid(index) { return (index < 0) || (index > this.length - 1); }
+  isIndexInvalid(index) { return (index < 0) || (index > this.length - 1); }
 
   /**
    * Add node at the end of the list
@@ -155,7 +155,7 @@ export class LinkedList {
    * Complexity: O(n)
    */
   removeAt(index) {
-    if (this.isEmpty || this.indexInvalid(index)) return undefined;
+    if (this.isEmpty || this.isIndexInvalid(index)) return undefined;
 
     if (index === this.length - 1) {
       return this.removeLast();
@@ -185,7 +185,7 @@ export class LinkedList {
    * Complexity: O(n)
    */
   get(index) {
-    if (this.isEmpty || this.indexInvalid(index)) return undefined;
+    if (this.isEmpty || this.isIndexInvalid(index)) return undefined;
 
     // make complexity of getting the last node as O(1)
     if (index === this.length - 1) {
