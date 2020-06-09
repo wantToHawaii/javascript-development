@@ -7,8 +7,6 @@
  * - breadth-first search (BFS) graph traversal
  */
 
-// TODO: Realise Priority Queue
-
 import { LinkedList } from './linked-list';
 
 class Queue {
@@ -46,18 +44,6 @@ class Queue {
   peek() {
     return this.list.peekFirst();
   }
-
-  /**
-   * Checking if a value within the queue
-   * Complexity: O(n)
-   */
-  contains() {}
-
-  /**
-   * Remove a node from the queue
-   * Complexity: O(n)
-   */
-  remove() {}
 
   // realise generator to iterate over the List values
   [Symbol.iterator]() {
