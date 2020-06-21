@@ -1,10 +1,14 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: {
+    index: './src/index.js',
+    graphics: './src/graphics/index.js',
+  },
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist'
@@ -12,9 +16,16 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Development',
-      template: './src/index.html'
-    })
+      filename: 'index.html',
+      template: './src/index.html',
+      chunks: ['index'],
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'graphics.html',
+      template: './src/graphics/index.html',
+      chunks: ['graphics'],
+    }),
+    new MiniCssExtractPlugin(),
   ],
   output: {
     filename: '[name].bundle.js',
@@ -35,6 +46,21 @@ module.exports = {
                 plugins: ['@babel/plugin-transform-runtime']
             }
         }
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        exclude: /(node_modules|bower_components)/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // hmr: process.env.NODE_ENV === 'development',
+            },
+          },
+          'css-loader',
+          // 'postcss-loader',
+          'sass-loader',
+        ],
       },
     ]
   }
